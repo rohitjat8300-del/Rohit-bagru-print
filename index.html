@@ -1,245 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rohit Web Solutions</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-      scroll-behavior: smooth;
+<title>Rohit Bagru Print</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f8f5ef;
+    color:#222;
+}
+
+header{
+    background:#5b2418;
+    color:white;
+    padding:18px 5%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:bold;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:18px;
+}
+
+.hero{
+    min-height:430px;
+    padding:70px 8%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:
+    linear-gradient(rgba(80,35,20,.65),rgba(80,35,20,.65)),
+    url("https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1200&q=80");
+    background-size:cover;
+    background-position:center;
+    color:white;
+}
+
+.hero h1{
+    font-size:45px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    font-size:19px;
+    margin-bottom:25px;
+}
+
+.btn{
+    display:inline-block;
+    background:#d89b45;
+    color:white;
+    padding:13px 24px;
+    border-radius:8px;
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+    font-size:16px;
+}
+
+section{
+    padding:50px 6%;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.title h2{
+    color:#5b2418;
+    font-size:30px;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:22px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,.12);
+    text-align:center;
+    padding-bottom:20px;
+}
+
+.card img{
+    width:100%;
+    height:230px;
+    object-fit:cover;
+}
+
+.card h3{
+    margin:15px 0 8px;
+}
+
+.price{
+    color:#b35b25;
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.about{
+    background:#eadcc8;
+    text-align:center;
+    line-height:1.7;
+}
+
+.contact{
+    text-align:center;
+}
+
+.contact p{
+    margin:10px 0;
+}
+
+footer{
+    background:#3b1811;
+    color:white;
+    text-align:center;
+    padding:22px;
+}
+
+.cart{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    background:#5b2418;
+    color:white;
+    padding:15px 20px;
+    border-radius:50px;
+    box-shadow:0 4px 15px rgba(0,0,0,.3);
+    cursor:pointer;
+}
+
+@media(max-width:600px){
+    header{
+        flex-direction:column;
+        gap:12px;
     }
 
-    body {
-      background: #f5f7fb;
-      color: #222;
+    nav a{
+        margin:0 6px;
+        font-size:14px;
     }
 
-    header {
-      background: #111827;
-      color: white;
-      padding: 18px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+    .hero h1{
+        font-size:32px;
     }
 
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1100px;
-      margin: auto;
+    .hero p{
+        font-size:16px;
     }
-
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 15px;
-      font-size: 14px;
-    }
-
-    .hero {
-      min-height: 90vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 30px 20px;
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      color: white;
-    }
-
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 15px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      margin-bottom: 25px;
-    }
-
-    .btn {
-      display: inline-block;
-      background: white;
-      color: #2563eb;
-      padding: 13px 25px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    section {
-      padding: 60px 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    .title {
-      text-align: center;
-      margin-bottom: 35px;
-      font-size: 30px;
-    }
-
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    }
-
-    .card h3 {
-      margin: 15px 0 10px;
-    }
-
-    .card p {
-      color: #666;
-      line-height: 1.5;
-    }
-
-    .contact {
-      text-align: center;
-    }
-
-    .contact a {
-      display: inline-block;
-      margin: 10px;
-      padding: 12px 20px;
-      border-radius: 25px;
-      text-decoration: none;
-      color: white;
-      background: #2563eb;
-    }
-
-    footer {
-      background: #111827;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-
-    @media (max-width: 600px) {
-      nav {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      nav a {
-        margin: 5px;
-      }
-
-      .hero h1 {
-        font-size: 32px;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <nav>
-      <div class="logo">Rohit Web Solutions</div>
+<header>
+    <div class="logo">🧵 Rohit Bagru Print</div>
 
-      <div>
+    <nav>
         <a href="#home">Home</a>
-        <a href="#services">Services</a>
+        <a href="#products">Products</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
-      </div>
     </nav>
-  </header>
+</header>
 
-  <section class="hero" id="home">
+
+<!-- HOME -->
+<section class="hero" id="home">
     <div>
-      <h1>Rohit Web Solutions</h1>
-      <p>Modern • Fast • Mobile-Friendly Websites</p>
-      <a href="#contact" class="btn">Get Started</a>
+        <h1>Rohit Bagru Print</h1>
+        <p>Traditional Bagru Print • Handmade Style • Beautiful Designs</p>
+        <a href="#products" class="btn">Shop Now</a>
     </div>
-  </section>
+</section>
 
-  <section id="services">
-    <h2 class="title">Our Services</h2>
 
-    <div class="services">
+<!-- PRODUCTS -->
+<section id="products">
 
-      <div class="card">
-        <div style="font-size:40px;">🌐</div>
-        <h3>Website Design</h3>
-        <p>Professional and responsive websites for businesses and personal brands.</p>
-      </div>
+    <div class="title">
+        <h2>Our Products</h2>
+        <p>Explore our collection</p>
+    </div>
 
-      <div class="card">
-        <div style="font-size:40px;">📱</div>
-        <h3>Mobile Friendly</h3>
-        <p>Websites that look good and work properly on mobile phones.</p>
-      </div>
+    <div class="products">
 
-      <div class="card">
-        <div style="font-size:40px;">🛒</div>
-        <h3>Online Shop</h3>
-        <p>Simple online shopping websites for products and services.</p>
-      </div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1583743814966-8936f37f384f?auto=format&fit=crop&w=600&q=80">
+            <h3>Bagru Print T-Shirt</h3>
+            <div class="price">₹499</div>
+            <button class="btn" onclick="order('Bagru Print T-Shirt','499')">
+                Order Now
+            </button>
+        </div>
 
-      <div class="card">
-        <div style="font-size:40px;">⚡</div>
-        <h3>Fast Website</h3>
-        <p>Clean and lightweight websites designed for a smooth experience.</p>
-      </div>
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=600&q=80">
+            <h3>Bagru Print Kurti</h3>
+            <div class="price">₹799</div>
+            <button class="btn" onclick="order('Bagru Print Kurti','799')">
+                Order Now
+            </button>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80">
+            <h3>Printed Dupatta</h3>
+            <div class="price">₹599</div>
+            <button class="btn" onclick="order('Printed Dupatta','599')">
+                Order Now
+            </button>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=600&q=80">
+            <h3>Handmade Bag</h3>
+            <div class="price">₹399</div>
+            <button class="btn" onclick="order('Handmade Bag','399')">
+                Order Now
+            </button>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1604176354204-9268737828e4?auto=format&fit=crop&w=600&q=80">
+            <h3>Printed Shirt</h3>
+            <div class="price">₹699</div>
+            <button class="btn" onclick="order('Printed Shirt','699')">
+                Order Now
+            </button>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80">
+            <h3>Printed Bedsheet</h3>
+            <div class="price">₹999</div>
+            <button class="btn" onclick="order('Printed Bedsheet','999')">
+                Order Now
+            </button>
+        </div>
 
     </div>
-  </section>
+</section>
 
-  <section id="about">
-    <h2 class="title">About Us</h2>
 
-    <div class="card">
-      <p>
-        Rohit Web Solutions provides modern website design
-        services for individuals, students and small businesses.
-        Our goal is to create simple, attractive and useful websites.
-      </p>
+<!-- ABOUT -->
+<section class="about" id="about">
+    <div class="title">
+        <h2>About Rohit Bagru Print</h2>
     </div>
-  </section>
 
-  <section id="contact" class="contact">
-    <h2 class="title">Contact Us</h2>
+    <p>
+        Rohit Bagru Print is a brand inspired by the traditional
+        Bagru printing style. Our goal is to bring beautiful,
+        creative and traditional designs to customers through
+        an easy online shopping experience.
+    </p>
+</section>
 
-    <p>Interested in a website? Contact us today.</p>
 
-    <!-- Apna number yahan change karein -->
-    <a href="tel:9509868300">📞 Call</a>
+<!-- CONTACT -->
+<section class="contact" id="contact">
 
-    <!-- Apna WhatsApp number yahan change karein -->
-    <a href="https://wa.me/+919509868300" target="_blank">
-      💬 WhatsApp
+    <div class="title">
+        <h2>Contact Us</h2>
+    </div>
+
+    <p>📞 Phone: +91 XXXXX XXXXX</p>
+    <p>📧 <input type="email" name="rohitjat8300@gmail.com" id="rohitjat8300@gmail.com" value="" />:il.com</p>
+    <p>📍 Rajasthan, India</p>
+
+    <br>
+
+    <a class="btn"
+       href="https://wa.me/919509868300"
+       target="_blank">
+       WhatsApp Us
     </a>
 
-    <a href="mailto: rohitjat8300@gmail.com">
-      ✉️ Email
-    </a>
-  </section>
+</section>
 
-  <footer>
-    <p>© 2026 Rohit Web Solutions. All Rights Reserved.</p>
-  </footer>
+
+<!-- CART BUTTON -->
+<div class="cart" onclick="showCart()">
+    🛒 Cart: <span id="cartCount">0</span>
+</div>
+
+
+<footer>
+    © 2026 Rohit Bagru Print | All Rights Reserved
+</footer>
+
+
+<script>
+
+let cartCount = 0;
+
+function order(product, price){
+
+    cartCount++;
+
+    document.getElementById("cartCount").innerText = cartCount;
+
+    let message =
+    "Hello Rohit Bagru Print,%0A%0A" +
+    "I want to order:%0A" +
+    "Product: " + product + "%0A" +
+    "Price: ₹" + price;
+
+    /*
+      IMPORTANT:
+      नीचे 91XXXXXXXXXX को अपने WhatsApp number
+      से replace करें.
+    */
+
+    let phone = "919509868300";
+
+    window.open(
+        "https://wa.me/" + phone + "?text=" + message,
+        "_blank"
+    );
+}
+
+function showCart(){
+
+    alert(
+        "🛒 Your Cart\n\n" +
+        "Items: " + cartCount
+    );
+
+}
+
+</script>
 
 </body>
 </html>
