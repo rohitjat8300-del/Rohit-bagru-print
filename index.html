@@ -324,46 +324,277 @@ footer{
 let cart = [];
 
 function order(product, price) {
-    cart.push({
-        name: product,
-        price: Number(price)
-    });
+    let existing = cart.find(item => item.name === product);
+
+    if (existing) {
+        existing.quantity++;
+    } else {
+        cart.push({
+            name: product,
+            price: Number(price),
+            quantity: 1
+        });
+    }
 
     updateCart();
-
     alert(product + " cart mein add ho gaya!");
 }
 
 function updateCart() {
-    document.getElementById("cartCount").innerText = cart.length;
+    let count = 0;
+
+    cart.forEach(item => {
+        count += item.quantity;
+    });
+
+    document.getElementById("cartCount").innerText = count;
 }
 
 function showCart() {
 
-    if (cart.length === 0) {
-        alert("Your cart is empty!");
-        return;
+    let oldCart = document.getElementById("cartPopup");
+
+    if (oldCart) {
+        oldCart.remove();
     }
 
-    let message = "🛍️ Rohit Bagru Print Order\n\n";
-    let total = 0;
+    let popup = document.createElement("div");
+    popup.id = "cartPopup";
 
-    cart.forEach((item, index) => {
-        message += (index + 1) + ". " + item.name +
-                   " - ₹" + item.price + "\n";
-        total += item.price;
-    });
+    popup.style.cssText = `
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.65);
+        z-index:9999;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:15px;
+        box-sizing:border-box;
+    `;
 
-    message += "\n💰 Total: ₹" + total;
-    message += "\n\nPlease confirm my order.";
+    let box = document.createElement("div");
 
-    let phone = "919509868300";
+    box.style.cssText = `
+        background:white;
+        width:100%;
+        max-width:430px;
+        max-height:85vh;
+        overflow-y:auto;
+        border-radius:18px;
+        padding:20px;
+        box-sizing:border-box;
+    `;
 
-    window.open(
-        "https://wa.me/" + phone +
-        "?text=" + encodeURIComponent(message),
-        "_blank"
-    );
+    let title = document.createElement("h2");
+    title.innerText = "🛒 Your Cart";
+    title.style.textAlign = "center";
+
+    box.appendChild(title);
+
+    if (cart.length === 0) {
+
+        let empty = document.createElement("p");
+        empty.innerText = "Your cart is empty!";
+        empty.style.textAlign = "center";
+
+        box.appendChild(empty);
+
+    } else {
+
+        let total = 0;
+
+        cart.forEach((item, index) => {
+
+            total += item.price * item.quantity;
+
+            let row = document.createElement("div");
+
+            row.style.cssText = `
+                border-bottom:1px solid #ddd;
+                padding:12px 0;
+            `;
+
+            let name = document.createElement("b");
+            name.innerText = item.name;
+
+            let price = document.createElement("div");
+            price.innerText =
+                "₹" + item.price + " × " + item.quantity;
+
+            let controls = document.createElement("div");
+
+            controls.style.cssText = `
+                display:flex;
+                align-items:center;
+                gap:10px;
+                margin-top:8px;
+            `;
+
+            let minus = document.createElement("button");
+            minus.innerText = "−";
+
+            minus.style.cssText = `
+                width:40px;
+                height:35px;
+                font-size:22px;
+                border:1px solid #ccc;
+                border-radius:8px;
+                background:#f5f5f5;
+            `;
+
+            minus.onclick = function() {
+                if (item.quantity > 1) {
+                    item.quantity--;
+                } else {
+                    cart.splice(index, 1);
+                }
+
+                updateCart();
+                showCart();
+            };
+
+            let quantity = document.createElement("span");
+            quantity.innerText = item.quantity;
+            quantity.style.fontSize = "18px";
+
+            let plus = document.createElement("button");
+            plus.innerText = "+";
+
+            plus.style.cssText = `
+                width:40px;
+                height:35px;
+                font-size:22px;
+                border:1px solid #ccc;
+                border-radius:8px;
+                background:#f5f5f5;
+            `;
+
+            plus.onclick = function() {
+                item.quantity++;
+                updateCart();
+                showCart();
+            };
+
+            let remove = document.createElement("button");
+            remove.innerText = "Remove";
+
+            remove.style.cssText = `
+                margin-left:auto;
+                padding:7px 10px;
+                border:0;
+                border-radius:7px;
+                background:#eee;
+            `;
+
+            remove.onclick = function() {
+                cart.splice(index, 1);
+                updateCart();
+                showCart();
+            };
+
+            controls.appendChild(minus);
+            controls.appendChild(quantity);
+            controls.appendChild(plus);
+            controls.appendChild(remove);
+
+            row.appendChild(name);
+            row.appendChild(price);
+            row.appendChild(controls);
+
+            box.appendChild(row);
+        });
+
+        let totalText = document.createElement("h3");
+        totalText.innerText = "Total: ₹" + total;
+        totalText.style.textAlign = "center";
+
+        box.appendChild(totalText);
+
+        let checkout = document.createElement("button");
+
+        checkout.innerText = "📲 Checkout on WhatsApp";
+
+        checkout.style.cssText = `
+            width:100%;
+            padding:14px;
+            border:0;
+            border-radius:10px;
+            font-size:16px;
+            font-weight:bold;
+            margin-top:10px;
+            background:#25D366;
+            color:white;
+        `;
+
+        checkout.onclick = function() {
+
+            let message =
+                "🛍️ Rohit Bagru Print Order\n\n";
+
+            let total = 0;
+
+            cart.forEach((item, index) => {
+
+                let itemTotal =
+                    item.price * item.quantity;
+
+                message +=
+                    (index + 1) + ". " +
+                    item.name +
+                    " × " +
+                    item.quantity +
+                    " = ₹" +
+                    itemTotal +
+                    "\n";
+
+                total += itemTotal;
+            });
+
+            message +=
+                "\n💰 Total: ₹" +
+                total +
+                "\n\nPlease confirm my order.";
+
+            let phone = "919509868300";
+
+            window.open(
+                "https://wa.me/" +
+                phone +
+                "?text=" +
+                encodeURIComponent(message),
+                "_blank"
+            );
+        };
+
+        box.appendChild(checkout);
+    }
+
+    let close = document.createElement("button");
+
+    close.innerText = "Close";
+
+    close.style.cssText = `
+        width:100%;
+        padding:12px;
+        margin-top:10px;
+        border:0;
+        border-radius:10px;
+        background:#ddd;
+        font-size:16px;
+    `;
+
+    close.onclick = function() {
+        popup.remove();
+    };
+
+    box.appendChild(close);
+
+    popup.appendChild(box);
+    document.body.appendChild(popup);
 }
 </script>
 
