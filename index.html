@@ -321,44 +321,50 @@ footer{
 
 
 <script>
+let cart = [];
 
-let cartCount = 0;
+function order(product, price) {
+    cart.push({
+        name: product,
+        price: Number(price)
+    });
 
-function order(product, price){
+    updateCart();
 
-    cartCount++;
+    alert(product + " cart mein add ho gaya!");
+}
 
-    document.getElementById("cartCount").innerText = cartCount;
+function updateCart() {
+    document.getElementById("cartCount").innerText = cart.length;
+}
 
-    let message =
-    "Hello Rohit Bagru Print,%0A%0A" +
-    "I want to order:%0A" +
-    "Product: " + product + "%0A" +
-    "Price: ₹" + price;
+function showCart() {
 
-    /*
-      IMPORTANT:
-      नीचे 91XXXXXXXXXX को अपने WhatsApp number
-      से replace करें.
-    */
+    if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
 
-    let phone = "919509868300";
+    let message = "🛍️ Rohit Bagru Print Order\n\n";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        message += (index + 1) + ". " + item.name +
+                   " - ₹" + item.price + "\n";
+        total += item.price;
+    });
+
+    message += "\n💰 Total: ₹" + total;
+    message += "\n\nPlease confirm my order.";
+
+    let phone = "9509868300";
 
     window.open(
-        "https://wa.me/" + phone + "?text=" + message,
+        "https://wa.me/" + phone +
+        "?text=" + encodeURIComponent(message),
         "_blank"
     );
 }
-
-function showCart(){
-
-    alert(
-        "🛒 Your Cart\n\n" +
-        "Items: " + cartCount
-    );
-
-}
-
 </script>
 
 </body>
