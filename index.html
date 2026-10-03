@@ -600,7 +600,7 @@ function showCart() {
 </script>
 <script>
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js")
+  navigator.serviceWorker.register("./sw.js")
     .then(() => console.log("App ready"))
     .catch(error => console.log("Service Worker Error:", error));
 }
