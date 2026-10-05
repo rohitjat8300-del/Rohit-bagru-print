@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rohit Adventure - Level 3</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #111;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      color: white;
+    }
+
+    #game {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(#35a7ff, #dff6ff);
+    }
+
+    /* Sky */
+    .cloud {
+      position: absolute;
+      width: 100px;
+      height: 35px;
+      background: white;
+      border-radius: 50px;
+      opacity: 0.85;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .cloud::before {
+      width: 45px;
+      height: 45px;
+      left: 20px;
+      top: -20px;
+    }
+
+    .cloud::after {
+      width: 55px;
+      height: 55px;
+      right: 15px;
+      top: -25px;
+    }
+
+    .cloud1 {
+      top: 80px;
+      left: 10%;
+    }
+
+    .cloud2 {
+      top: 150px;
+      left: 65%;
+      transform: scale(.8);
+    }
+
+    /* Ground */
+    #ground {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background: #35a853;
+      border-top: 8px solid #247a35;
+    }
+
+    /* Player */
+    #player {
+      position: absolute;
+      width: 50px;
+      height: 65px;
+      left: 60px;
+      bottom: 100px;
+      z-index: 5;
+    }
+
+    .head {
+      width: 35px;
+      height: 35px;
+      background: #f2bd91;
+      border-radius: 50%;
+      margin: auto;
+      border: 3px solid #222;
+    }
+
+    .body {
+      width: 30px;
+      height: 30px;
+      background: #ffcc00;
+      margin: auto;
+      border-radius: 8px;
+      border: 3px solid #222;
+    }
+
+    /* Obstacles */
+    .obstacle {
+      position: absolute;
+      width: 42px;
+      height: 55px;
+      bottom: 100px;
+      background: #e53935;
+      border: 4px solid #8e0000;
+      border-radius: 8px;
+      z-index: 4;
+    }
+
+    .coin {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      background: gold;
+      border: 4px solid #d99d00;
+      border-radius: 50%;
+      bottom: 180px;
+      z-index: 3;
+      box-shadow: 0 0 10px gold;
+    }
+
+    /* UI */
+    #topbar {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .box {
+      background: rgba(0,0,0,.7);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    #message {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,.85);
+      padding: 25px;
+      border-radius: 18px;
+      text-align: center;
+      z-index: 50;
+      width: 85%;
+      max-width: 360px;
+      display: none;
+    }
+
+    #message h1 {
+      margin-bottom: 10px;
+    }
+
+    button {
+      border: none;
+      padding: 12px 22px;
+      margin-top: 15px;
+      border-radius: 12px;
+      background: #00c853;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    /* Controls */
+    #controls {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+    }
+
+    .control {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      border: 2px solid white;
+      background: rgba(0,0,0,.65);
+      color: white;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .control:active {
+      background: #00c853;
+      transform: scale(.92);
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="game">
+
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
+
+  <div id="topbar">
+    <div class="box">⭐ Score: <span id="score">0</span></div>
+    <div class="box">❤️ Lives: <span id="lives">3</span></div>
+    <div class="box">🏆 Level 3</div>
+  </div>
+
+  <div id="player">
+    <div class="head"></div>
+    <div class="body"></div>
+  </div>
+
+  <div id="ground"></div>
+
+  <div id="controls">
+    <div class="control" id="leftBtn">⬅️</div>
+    <div class="control" id="jumpBtn">⬆️</div>
+    <div class="control" id="rightBtn">➡️</div>
+  </div>
+
+  <div id="message">
+    <h1 id="messageTitle">Level 3</h1>
+    <p id="messageText">Collect coins and avoid obstacles!</p>
+    <button onclick="restartGame()">START GAME</button>
+  </div>
+
+</div>
+
+<script>
+
+  const game = document.getElementById("game");
+  const player = document.getElementById("player");
+
+  const scoreText = document.getElementById("score");
+  const livesText = document.getElementById("lives");
+
+  const message = document.getElementById("message");
+  const messageTitle = document.getElementById("messageTitle");
+  const messageText = document.getElementById("messageText");
+
+  let playerX = 60;
+  let playerY = 0;
+
+  let velocityY = 0;
+  let jumping = false;
+
+  let score = 0;
+  let lives = 3;
+
+  let gameRunning = false;
+
+  let obstacles = [];
+  let coins = [];
+
+  let speed = 5;
+
+  /* START */
+
+  function startGame() {
+
+    score = 0;
+    lives = 3;
+
+    playerX = 60;
+    playerY = 0;
+
+    scoreText.textContent = score;
+    livesText.textContent = lives;
+
+    obstacles.forEach(o => o.remove());
+    coins.forEach(c => c.remove());
+
+    obstacles = [];
+    coins = [];
+
+    gameRunning = true;
+
+    message.style.display = "none";
+
+    createObstacle();
+    createCoin();
+
+    requestAnimationFrame(gameLoop);
+  }
+
+  /* Restart */
+
+  function restartGame() {
+    startGame();
+  }
+
+  /* Player movement */
+
+  function moveLeft() {
+
+    if (!gameRunning) return;
+
+    playerX -= 35;
+
+    if (playerX < 0) {
+      playerX = 0;
+    }
+  }
+
+  function moveRight() {
+
+    if (!gameRunning) return;
+
+    playerX += 35;
+
+    if (playerX > window.innerWidth - 55) {
+      playerX = window.innerWidth - 55;
+    }
+  }
+
+  function jump() {
+
+    if (!gameRunning) return;
+
+    if (!jumping) {
+
+      velocityY = 14;
+      jumping = true;
+
+    }
+  }
+
+  /* Touch buttons */
+
+  document.getElementById("leftBtn")
+    .addEventListener("touchstart", function(e) {
+      e.preventDefault();
+      moveLeft();
+    });
+
+  document.getElementById("rightBtn")
+    .addEventListener("touchstart", function(e) {
+      e.preventDefault();
+      moveRight();
+    });
+
+  document.getElementById("jumpBtn")
+    .addEventListener("touchstart", function(e) {
+      e.preventDefault();
+      jump();
+    });
+
+  /* Mouse */
+
+  document.getElementById("leftBtn")
+    .addEventListener("click", moveLeft);
+
+  document.getElementById("rightBtn")
+    .addEventListener("click", moveRight);
+
+  document.getElementById("jumpBtn")
+    .addEventListener("click", jump);
+
+  /* Keyboard */
+
+  document.addEventListener("keydown", function(e) {
+
+    if (e.key === "ArrowLeft") {
+      moveLeft();
+    }
+
+    if (e.key === "ArrowRight") {
+      moveRight();
+    }
+
+    if (e.key === "ArrowUp" || e.key === " ") {
+      jump();
+    }
+
+  });
+
+  /* Create obstacle */
+
+  function createObstacle() {
+
+    if (!gameRunning) return;
+
+    const obstacle = document.createElement("div");
+
+    obstacle.className = "obstacle";
+
+    obstacle.style.left =
+      window.innerWidth + "px";
+
+    obstacle.dataset.x =
+      window.innerWidth;
+
+    game.appendChild(obstacle);
+
+    obstacles.push(obstacle);
+
+    setTimeout(createObstacle, 1600);
+  }
+
+  /* Create coin */
+
+  function createCoin() {
+
+    if (!gameRunning) return;
+
+    const coin = document.createElement("div");
+
+    coin.className = "coin";
+
+    const randomX =
+      window.innerWidth +
+      Math.random() * 300;
+
+    const randomY =
+      140 + Math.random() * 220;
+
+    coin.style.left = randomX + "px";
+    coin.style.bottom = randomY + "px";
+
+    coin.dataset.x = randomX;
+
+    game.appendChild(coin);
+
+    coins.push(coin);
+
+    setTimeout(createCoin, 1200);
+  }
+
+  /* Collision */
+
+  function collision(a, b) {
+
+    const r1 = a.getBoundingClientRect();
+    const r2 = b.getBoundingClientRect();
+
+    return !(
+      r1.right < r2.left ||
+      r1.left > r2.right ||
+      r1.bottom < r2.top ||
+      r1.top > r2.bottom
+    );
+  }
+
+  /* Game Loop */
+
+  function gameLoop() {
+
+    if (!gameRunning) return;
+
+    /* Jump physics */
+
+    if (jumping) {
+
+      playerY += velocityY;
+
+      velocityY -= 0.7;
+
+      if (playerY <= 0) {
+
+        playerY = 0;
+        velocityY = 0;
+        jumping = false;
+
+      }
+    }
+
+    player.style.left = playerX + "px";
+
+    player.style.bottom =
+      (100 + playerY) + "px";
+
+    /* Obstacles */
+
+    obstacles.forEach((obstacle, index) => {
+
+      let x =
+        parseFloat(obstacle.dataset.x);
+
+      x -= speed;
+
+      obstacle.dataset.x = x;
+
+      obstacle.style.left = x + "px";
+
+      if (collision(player, obstacle)) {
+
+        obstacle.remove();
+
+        obstacles.splice(index, 1);
+
+        lives--;
+
+        livesText.textContent = lives;
+
+        if (lives <= 0) {
+
+          gameOver();
+
+        }
+      }
+
+      if (x < -80) {
+
+        obstacle.remove();
+
+        obstacles.splice(index, 1);
+
+        score += 10;
+
+        scoreText.textContent = score;
+
+      }
+
+    });
+
+    /* Coins */
+
+    coins.forEach((coin, index) => {
+
+      let x =
+        parseFloat(coin.dataset.x);
+
+      x -= speed;
+
+      coin.dataset.x = x;
+
+      coin.style.left = x + "px";
+
+      if (collision(player, coin)) {
+
+        coin.remove();
+
+        coins.splice(index, 1);
+
+        score += 25;
+
+        scoreText.textContent = score;
+
+      }
+
+      if (x < -50) {
+
+        coin.remove();
+
+        coins.splice(index, 1);
+
+      }
+
+    });
+
+    /* Level complete */
+
+    if (score >= 300) {
+
+      levelComplete();
+      return;
+
+    }
+
+    requestAnimationFrame(gameLoop);
+  }
+
+  /* Game Over */
+
+  function gameOver() {
+
+    gameRunning = false;
+
+    messageTitle.textContent = "GAME OVER";
+
+    messageText.textContent =
+      "Your Score: " + score;
+
+    message.style.display = "block";
+  }
+
+  /* Level Complete */
+
+  function levelComplete() {
+
+    gameRunning = false;
+
+    messageTitle.textContent =
+      "🎉 LEVEL 3 COMPLETE!";
+
+    messageText.textContent =
+      "Amazing! Score: " + score +
+      " — Level 4 is ready!";
+
+    message.style.display = "block";
+  }
+
+  /* Initial screen */
+
+  message.style.display = "block";
+
+</script>
+
+</body>
+</html>
